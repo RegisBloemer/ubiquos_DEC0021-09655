@@ -15,7 +15,9 @@ const char* ssid       = "A535G";
 const char* password   = "mlki6803";
 
 // Configurações do MQTT
-const char* mqtt_server = "192.168.254.104"; 
+// 192.168.232.104
+// const char* mqtt_server = "192.168.254.104"; 
+const char* mqtt_server = "192.168.232.104"; 
 const int   mqtt_port   = 1883;
 const char* mqtt_topic  = "sensor/acelerometro";
 

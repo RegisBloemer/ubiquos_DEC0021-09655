@@ -17,8 +17,8 @@ ZABBIX_PORT   = "10051"
 HOSTNAME      = "SensorHost"
 
 # KEY_NIVEL continua ativa; KEY_VIB mantida só para referência
-KEY_VIB   = "sensor.vibration"
-KEY_NIVEL = "sensor.vibration.nivel"
+#KEY_VIB   = "sensor.vibration"
+KEY_NIVEL = "sensor.vibration"
 
 # ---------- CALLBACKS ----------
 def on_connect(client, userdata, flags, rc):
@@ -42,17 +42,24 @@ def on_message(client, userdata, msg):
 
 # ---------- FUNÇÃO AUXILIAR ----------
 def send_to_zabbix(key, value):
+    # envia {"nivel": 64}
+    payload = json.dumps({"nivel": value})
+
+    print(f"[ZBX-SEND] key={key} value={payload}")
+
     cmd = [
         "zabbix_sender",
         "-z", ZABBIX_SERVER,
         "-p", ZABBIX_PORT,
         "-s", HOSTNAME,
         "-k", key,
-        "-o", str(value),
+        "-o", payload,          # <- agora vai JSON
     ]
     result = subprocess.run(cmd, capture_output=True, text=True)
     if result.returncode != 0:
         print("Falha no zabbix_sender:", result.stderr.strip())
+
+
 
 # ---------- MAIN ----------
 client = mqtt.Client()

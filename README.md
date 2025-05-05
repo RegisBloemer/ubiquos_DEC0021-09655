@@ -2,153 +2,191 @@
 
 ## Visão Geral do Projeto
 
-Obiquos é um sistema de monitoramento IoT que coleta dados de vários sensores (acelerômetros e sensores de vibração), publica-os via MQTT e os encaminha para o Zabbix para monitoramento e alertas. O sistema permite o monitoramento em tempo real das condições físicas do seu ambiente.
+O Obiquos foi desenvolvido como um sistema de monitoramento IoT que coleta dados de dois diferentes sensores (acelerômetros e sensores de vibração) não simultaneamente. O sistema publica os dados via MQTT e os encaminha para o Zabbix para monitoramento e alertas, permitindo o monitoramento em tempo real das condições físicas do ambiente.
 
 ## Arquitetura
 
-O sistema consiste em três componentes principais:
+A arquitetura implementada consiste em três componentes principais:
 
-1. **Nós Sensores**: Microcontroladores ESP8266/ESP32 com sensores conectados
-2. **Broker MQTT**: Recebe e distribui dados dos sensores
-3. **Ponte MQTT-Zabbix**: Scripts Python que se inscrevem em tópicos MQTT e encaminham dados para o Zabbix
+1. **Nós Sensores**: Microcontroladores ESP8266 com sensores conectados  
+2. **Broker MQTT**: Recebe e distribui dados dos sensores  
+3. **Ponte MQTT-Zabbix**: Scripts Python que se inscrevem em tópicos MQTT e encaminham dados para o Zabbix  
 
+<div align="center">
+
+```mermaid
+graph TD
+   A[ESP8266/Arduino com Sensores] -->|MQTT| B[Broker MQTT]
+   B -->|MQTT| C[Ponte MQTT-Zabbix]
+   C -->|Zabbix Sender| D[Servidor Zabbix]
 ```
-┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│  ESP8266/   │     │             │     │  Python     │     │             │
-│   ESP32     ├────►│ MQTT Broker ├────►│  Bridge     ├────►│   Zabbix    │
-│ com Sensores│     │             │     │             │     │             │
-└─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘
+
+</div>
+
+## Montagem do Hardware
+
+### ESP32 com Sensor de Vibração SW-420
+
+![ESP32 com Sensor SW-420](./images/sw420.png)
+
+<!-- Espaço para inserir a imagem da ESP32 com o sensor SW-420 -->
+
+### ESP32 com Sensor MPU6050
+
+![ESP32 com Sensor MPU6050](./images/mpu6050.png)
+
+<!-- Espaço para inserir a imagem da ESP32 com o sensor MPU6050 -->
+
+## Sensores Utilizados
+
+* **MPU6050**: Acelerômetro e giroscópio de 3 eixos para detecção de movimentos
+* **SW-420**: Sensor de vibração que fornece leituras digitais e analógicas
+
+## Componentes de Hardware
+
+Para a implementação deste projeto, foram utilizados:
+* Placas de desenvolvimento ESP8266
+* Módulos de sensor MPU6050
+* Módulos de sensor de vibração SW-420
+* Fontes de alimentação para as placas ESP
+* Fios de conexão
+* Computador rodando broker MQTT e servidor Zabbix
+
+## Software Implementado
+
+O projeto foi desenvolvido utilizando:
+* Arduino IDE para a programação das placas ESP
+* Bibliotecas para ESP:
+  * `Wire.h`
+  * `ESP8266WiFi.h` ou `WiFi.h`
+  * `PubSubClient.h`
+  * `Adafruit_MPU6050.h` e `Adafruit_Sensor.h` (ou `MPU6050.h`)
+* Broker MQTT (Mosquitto)
+* Python 3.x com as bibliotecas:
+  * `paho-mqtt`
+  * `json`
+  * `subprocess`
+* Servidor Zabbix configurado com hosts e itens específicos
+
+## Implementação
+
+### 1. Nós Sensores
+
+Para os nós sensores, foram conectados:
+* MPU6050: Pinos SDA, SCL, VCC e GND à placa ESP
+* SW-420: Pinos DO (saída digital), AO (saída analógica), VCC e GND à placa ESP
+
+As bibliotecas Arduino foram instaladas via Gerenciador de Bibliotecas:
+* `PubSubClient`
+* `Adafruit MPU6050`
+* `Adafruit Unified Sensor`
+
+Dois sketches diferentes foram desenvolvidos:
+* `mqtt.ino` para o sensor MPU6050
+* `mqtt_sw_420.ino` para o sensor SW-420
+
+### 2. Broker MQTT
+
+O Mosquitto foi instalado e configurado como broker MQTT usando:
+
+```bash
+sudo apt update
+sudo apt install mosquitto mosquitto-clients
+sudo systemctl enable mosquitto
 ```
 
-## Sensores Suportados
+### 3. Ponte MQTT-Zabbix
 
-- **MPU6050**: Acelerômetro e giroscópio de 3 eixos
-- **SW-420**: Sensor de vibração (leituras digitais e analógicas)
+Foram desenvolvidos scripts Python que atuam como ponte entre o MQTT e o Zabbix:
 
-## Requisitos de Hardware
+```bash
+sudo apt install python3 python3-pip zabbix-sender
+pip3 install paho-mqtt
+```
 
-- Placas de desenvolvimento ESP8266 ou ESP32
-- Módulos de sensor MPU6050
-- Módulos de sensor de vibração SW-420
-- Fontes de alimentação para as placas ESP
-- Fios de conexão
-- Computador executando broker MQTT e servidor Zabbix
+Dois scripts principais foram criados:
+* mqtt2zabbix.py para dados do acelerômetro
+* mqtt3zabbix.py para dados de vibração
 
-## Requisitos de Software
+### 4. Configuração do Zabbix
 
-- Arduino IDE (para programar as placas ESP)
-- Bibliotecas para ESP:
-  - `Wire.h`
-  - `ESP8266WiFi.h` ou `WiFi.h`
-  - `PubSubClient.h`
-  - `Adafruit_MPU6050.h` e `Adafruit_Sensor.h` (ou `MPU6050.h`)
-- Broker MQTT (ex.: Mosquitto)
-- Python 3.x
-- Bibliotecas Python:
-  - `paho-mqtt`
-  - `json`
-  - `subprocess`
-- Servidor Zabbix com hosts e itens configurados adequadamente
+A instalação do Zabbix seguiu o tutorial disponível em:
+[Tutorial de Instalação do Zabbix](https://github.com/miguelsrrobo/zabbix-install)
 
-## Instalação
+Para o monitoramento dos sensores, configurei:
 
-### 1. Configurando os Nós Sensores
+1. Um host chamado **SensorHost**
 
-1. Conecte os sensores à sua placa ESP:
-   - Para MPU6050: Conecte os pinos SDA, SCL, VCC e GND
-   - Para SW-420: Conecte os pinos DO (saída digital), AO (saída analógica), VCC e GND
+   ![Host Zabbix](./images/hosts.png)
 
-2. Instale as bibliotecas Arduino necessárias através do Gerenciador de Bibliotecas do Arduino IDE:
-   - PubSubClient
-   - Adafruit MPU6050
-   - Adafruit Unified Sensor
+2. **Configuração para o Acelerômetro**:
+   * Um item master do tipo *trapper* chamado "Sensor Acelerômetro" com chave `sensor.acelerometro`
+   * Três itens dependentes:
+     * "Sensor Acelerômetro: Sensor Acelerômetro X" (chave: `sensor.acelerometro.x`)
+     * "Sensor Acelerômetro: Sensor Acelerômetro Y" (chave: `sensor.acelerometro.y`)
+     * "Sensor Acelerômetro: Sensor Acelerômetro Z" (chave: `sensor.acelerometro.z`)
+   * O pré-processamento de cada item dependente foi configurado usando JSONPath:
+     * Para o eixo X: `$.x`
+     * Para o eixo Y: `$.y`
+     * Para o eixo Z: `$.z`
+   
+   ![Itens Zabbix](./images/itens.png)
+   ![Pré-processamento Acelerômetro X](./images/acelerometroa_x.png)
 
-3. Carregue o sketch apropriado para sua placa ESP:
-   - `mqtt.ino` para o sensor MPU6050
-   - `mqtt_sw_420.ino` para o sensor de vibração SW-420
+3. **Configuração para o Sensor de Vibração**:
+   * Um item master do tipo *trapper* chamado "Sensor Vibration" com chave `sensor.vibration`
+   * Um item dependente:
+     * "Sensor Vibration Nível" (chave: `sensor.vibration.nivel`)
+   * O pré-processamento foi configurado usando JSONPath:
+     * Para o nível: `$.nivel`
+   
+   ![Pré-processamento Sensor Nível](./images/sensor_nivel.png)
 
-### 2. Configurando o Broker MQTT
+### 5. Integração com Grafana
 
-1. Instale o broker MQTT Mosquitto no seu servidor:
-   ```bash
-   sudo apt update
-   sudo apt install mosquitto mosquitto-clients
-   sudo systemctl enable mosquitto
-   ```
+Para melhorar a visualização dos dados, integrei o Zabbix com o Grafana seguindo o tutorial:
+[Tutorial Grafana-Zabbix](https://github.com/RegisBloemer/Grafana-Zabbix-Tutorial)
 
-### 3. Configurando a Ponte MQTT-Zabbix
+## Parâmetros de Configuração
 
-1. Instale o Python 3 e os pacotes necessários:
-   ```bash
-   sudo apt install python3 python3-pip zabbix-sender
-   pip3 install paho-mqtt
-   ```
+### Configuração das placas ESP8266
 
-2. Copie os scripts da ponte para o seu servidor:
-   - mqtt2zabbix.py para dados do acelerômetro
-   - mqtt3zabbix.py para dados de vibração
-
-3. Torne os scripts executáveis:
-   ```bash
-   chmod +x mqtt2zabbix.py mqtt3zabbix.py
-   ```
-
-### 4. Configurando o Zabbix
-
-1. Configure um host no Zabbix chamado "SensorHost"
-2. Crie itens trapper do Zabbix com as chaves:
-   - `sensor.acelerometro` para dados do acelerômetro
-   - `sensor.vibration` para dados de vibração
-3. Configure gráficos e gatilhos de acordo com suas necessidades de monitoramento
-
-## Configuração
-
-### Configuração do ESP8266/ESP32
-
-Edite os seguintes parâmetros nos sketches do Arduino:
+Os sketches Arduino foram configurados com:
 
 ```cpp
 // Credenciais WiFi
-const char* ssid = "SEU_SSID_WIFI";
+const char* ssid     = "SEU_SSID_WIFI";
 const char* password = "SUA_SENHA_WIFI";
 
-// Configurações do broker MQTT
+// Broker MQTT
 const char* mqtt_server = "IP_DO_SEU_BROKER_MQTT";
-const int mqtt_port = 1883;
+const int   mqtt_port   = 1883;
 ```
 
-### Configuração da Ponte MQTT-Zabbix
+### Configuração dos Scripts Python
 
-Edite os seguintes parâmetros nos scripts Python:
+Os scripts de ponte foram configurados com:
 
 ```python
 # Configurações MQTT
 MQTT_BROKER = "IP_DO_SEU_BROKER_MQTT"
-MQTT_PORT = 1883
-MQTT_TOPIC = "sensor/acelerometro" ou "sensor/vibracao"
+MQTT_PORT   = 1883
+MQTT_TOPIC  = "sensor/acelerometro"  # ou "sensor/vibracao"
 
 # Configurações Zabbix
 ZABBIX_SERVER = "SEU_SERVIDOR_ZABBIX"
-ZABBIX_PORT = "10051"
-HOSTNAME = "SensorHost"
+ZABBIX_PORT   = 10051
+HOSTNAME      = "SensorHost"
 ```
 
-## Utilização
+## Funcionamento do Sistema
 
-### Iniciando o Sistema
+O sistema funciona com as placas ESP conectadas ao WiFi enviando dados para o broker MQTT. Os scripts Python se inscrevem nos tópicos relevantes e encaminham os dados para o Zabbix usando o comando `zabbix_sender`. Os dados são então processados e visualizados no dashboard do Zabbix ou Grafana.
 
-1. Certifique-se de que suas placas ESP estão ligadas e conectadas ao WiFi
-2. Inicie os scripts da ponte MQTT-Zabbix:
-   ```bash
-   python3 mqtt2zabbix.py &
-   python3 mqtt3zabbix.py &
-   ```
+### Formato dos Dados Transmitidos
 
-3. Monitore os dados dos sensores no Zabbix através dos hosts e itens configurados
+#### Acelerômetro (MPU6050)
 
-### Formato dos Dados
-
-#### Dados do Acelerômetro (MPU6050)
 ```json
 {
   "x": 0.12,
@@ -161,7 +199,8 @@ HOSTNAME = "SensorHost"
 }
 ```
 
-#### Dados de Vibração (SW-420)
+#### Vibração (SW-420)
+
 ```json
 {
   "vib": 1,
@@ -169,35 +208,27 @@ HOSTNAME = "SensorHost"
 }
 ```
 
-## Solução de Problemas
+## Resolução de Problemas Encontrados
 
-### Problemas com ESP8266/ESP32
+Durante o desenvolvimento, diversos problemas foram solucionados:
 
-- **Falha na Conexão WiFi**: Verifique o SSID e a senha
-- **Falha na Conexão MQTT**: Verifique o IP e a porta do broker MQTT
-- **Sensor Não Detectado**: Verifique a fiação e os endereços I2C
+### Problemas com ESP8266
+* Problemas de conexão WiFi foram resolvidos verificando SSID e senha
+* Problemas de conexão MQTT foram solucionados verificando IP e porta do broker
+* Sensores não detectados foram resolvidos verificando fiação e endereços I2C
 
 ### Problemas com MQTT
-
-- **Nenhum Dado Publicado**: Use `mosquitto_sub` para verificar se os dados estão sendo publicados:
+* A verificação de publicação de dados foi feita usando:
   ```bash
   mosquitto_sub -t "sensor/acelerometro" -v
-  mosquitto_sub -t "sensor/vibracao" -v
+  mosquitto_sub -t "sensor/vibracao"   -v
   ```
 
 ### Problemas com Zabbix
-
-- **Sem Dados no Zabbix**: Verifique se o `zabbix_sender` está funcionando corretamente:
+* Problemas de recebimento de dados no Zabbix foram testados manualmente:
   ```bash
-  zabbix_sender -z SEU_SERVIDOR_ZABBIX -p 10051 -s "SensorHost" -k sensor.acelerometro -o '{"x":0,"y":0,"z":0}'
+  zabbix_sender -z SEU_SERVIDOR_ZABBIX -p 10051 \
+              -s "SensorHost" \
+              -k sensor.acelerometro \
+              -o '{"x":0,"y":0,"z":0}'
   ```
-
-## Licença
-
-Este projeto é fornecido como está, sem quaisquer garantias expressas ou implícitas.
-
----
-
-*Última atualização: 5 de maio de 2025*
-
-Similar code found with 2 license types

@@ -32,6 +32,24 @@ Neste cenário, os módulos são responsáveis exclusivamente pelo envio dos dad
 
 ## Cenário 1 - ESP8266 com sensores
 
+### Requisitos Funcionais
+
+- Capturar dados de vibração com o sensor SW-420 ou de aceleração com o MPU-6050
+- Transmitir os dados coletados usando o protocolo MQTT
+- Enviar os dados em formato JSON para o broker MQTT
+- Encaminhar os dados recebidos para o servidor Zabbix
+- Interpretar os dados JSON para separar os componentes recebidos
+- Exibir os dados em gráficos por meio do Zabbix
+- Integrar o Zabbix ao Grafana para visualizações mais completas
+- Permitir a configuração de limites de alerta diretamente no Zabbix
+
+### Requisitos Não Funcionais
+
+**Desempenho**: O sistema deve manter a comunicação eficiente entre sensores e servidor MQTT, garantindo fluxo contínuo de dados
+**Escalabilidade**: A arquitetura deve permitir a adição de novos sensores ou dispositivos ESP com alterações mínimas na configuração existente
+**Manutenibilidade**: O código deve ser modular e organizado, facilitando atualizações, testes e futuras melhorias
+**Portabilidade**: O sistema deve ser compatível com diferentes placas baseadas em ESP8266 ou ESP32, exigindo poucas modificações no código
+
 ### Arquitetura
 
 A arquitetura implementada consiste em três componentes principais:
@@ -263,59 +281,16 @@ Durante o desenvolvimento, diversos problemas foram solucionados:
   
 ## Cenário 2 - Módulos LoRa com Arduino UNO
 
+### Requisitos Funcionais 
 
-# Requisitos do Sistema de Monitoramento de Vibração para Indústria 4.0
+- Trocar dados entre os módulos utilizando comunicação LoRa de forma contínua e confiável.
+- Utilizar o Arduino UNO como base de alimentação, coleta e transmissão inicial dos dados dos sensores.
+- Receber os dados transmitidos no módulo conectado ao computador para posterior análise ou visualização.
+- Realizar um pré-processamento local dos dados (como filtragem ou ajuste de formato) antes de enviá-los por LoRa.
+  
+### Requisitos Não Funcionais
 
-## Requisitos Comuns aos Dois Cenários
-
-### Requisitos Funcionais Comuns (RFC)
-
-- O sistema deve capturar dados de aceleração nos eixos X, Y e Z através do sensor MPU-6050
-- O sistema deve processar dados para detecção de anomalias em equipamentos
-- O sistema deve permitir a visualização dos dados de vibração e aceleração
-- O sistema deve gerar alertas quando detectar padrões anormais de vibração
-
-### Requisitos Não Funcionais Comuns (RNFC)
-
-- O sistema deve ser de baixo custo para implementação
-- O sistema deve ser modular para permitir a manutenção e expansão
-- O software deve ser bem documentado para facilitar a manutenção
-- O sistema deve ser capaz de funcionar em ambiente industrial
-
-## Cenário 1 - ESP8266 com Sensores
-
-### Requisitos Funcionais - Cenário 1 (RF1)
-
-- O sistema deve capturar dados de vibração através do sensor SW-420 ou de aceleração através do módulo MPU-6050
-- O sistema deve transmitir dados via protocolo MQTT para o broker
-- O sistema deve formatar os dados em JSON antes de transmitir
-- O sistema deve encaminhar os dados recebidos via MQTT para o servidor Zabbix
-- O sistema deve extrair componentes individuais dos dados JSON recebidos
-- O sistema deve oferecer visualização gráfica através do Zabbix
-- O sistema deve integrar-se com Grafana para visualizações avançadas
-- O sistema deve permitir a configuração de limiares para alertas no Zabbix
-
-### Requisitos Não Funcionais - Cenário 1 (RNF1)
-
-- O sistema deve conectar-se a redes Wi-Fi
-- O sistema deve implementar mecanismo de reconexão automática ao WiFi e broker MQTT
-- O sistema deve validar os dados antes de enviá-los ao broker MQTT
-- O acesso às interfaces de monitoramento (Zabbix/Grafana) deve ser protegido por autenticação
-
-## Cenário 2 - Módulos LoRa com Arduino UNO
-
-### Requisitos Funcionais - Cenário 2 (RF2)
-
-- O sistema deve transmitir dados via comunicação LoRa entre os módulos
-- O Arduino UNO deve ser utilizado como fonte de alimentação e processamento inicial do sistema
-- O módulo conectado ao PC deve ser capaz de receber dados transmitidos pelos módulos LoRa
-- O sistema deve processar os dados antes de enviá-los
-- A configuração dos parâmetros de leitura dos sensores deve ser realizada de forma remota
-
-### Requisitos Não Funcionais - Cenário 2 (RNF2)
-
-- **Desempenho**: O sistema deve manter uma comunicação eficiente entre os módulos
-- **Escalabilidade**: O sistema deve ser projetado de forma modular, permitindo a inclusão de novos sensores ou nós LoRa com adaptações mínimas
-- **Manutenibilidade**: O código-fonte e a estrutura do firmware devem ser organizados de forma clara, facilitando ajustes e melhorias futuras
-- **Usabilidade**: O sistema deve permitir fácil configuração e monitoramento básico por meio da interface serial
-- **Portabilidade**: A solução deve funcionar em diferentes placas compatíveis com Arduino e LoRa, com necessidade mínima de alteração no código
+- **Desempenho**: Garantir que a troca de mensagens entre os módulos ocorra de forma fluida e estável
+- **Escalabilidade**: Permitir a adição de novos sensores ou módulos LoRa com poucas alterações no sistema
+- **Manutenibilidade**: Manter o código modular e bem comentado para facilitar futuras modificações
+- **Portabilidade**: Garantir compatibilidade com outras placas Arduino e módulos LoRa com pequenas adaptações

@@ -73,18 +73,18 @@ graph TD
 ### Componentes de Hardware
 
 Para a implementação deste projeto, foram utilizados:
-* Placas de desenvolvimento ESP8266
-* Módulos de sensor MPU6050
-* Módulos de sensor de vibração SW-420
-* Fontes de alimentação para as placas ESP
+* Placa de desenvolvimento ESP8266
+* Módulo MPU6050
+* Sensor de vibração SW-420
+* Fonte de alimentação para a placa ESP8266
 * Fios de conexão
 * Computador rodando broker MQTT e servidor Zabbix
 
 ### Software Implementado
 
 O projeto foi desenvolvido utilizando:
-* Arduino IDE para a programação das placas ESP
-* Bibliotecas para ESP:
+* Arduino IDE para a programação da placa ESP8266
+* Bibliotecas para ESP8266:
   * `Wire.h`
   * `ESP8266WiFi.h` ou `WiFi.h`
   * `PubSubClient.h`
@@ -102,7 +102,7 @@ O projeto foi desenvolvido utilizando:
 
 Para os nós sensores, foram conectados:
 * MPU6050: Pinos SDA, SCL, VCC e GND à placa ESP
-* SW-420: Pinos DO (saída digital), AO (saída analógica), VCC e GND à placa ESP
+* SW-420: Pinos DO (saída digital), AO (saída analógica, presente apenas em alguns módulos), VCC e GND à placa ESP
 
 As bibliotecas Arduino foram instaladas via Gerenciador de Bibliotecas:
 * `PubSubClient`
@@ -141,7 +141,7 @@ Dois scripts principais foram criados:
 A instalação do Zabbix seguiu o tutorial disponível em:
 [Tutorial de Instalação do Zabbix](https://github.com/miguelsrrobo/zabbix-install)
 
-Para o monitoramento dos sensores, configurei:
+Para o monitoramento dos sensores, foi realizada a configuração de:
 
 1. Um host chamado **SensorHost**
 
@@ -172,7 +172,7 @@ Para o monitoramento dos sensores, configurei:
 
 #### 5. Integração com Grafana
 
-Para melhorar a visualização dos dados, integrei o Zabbix com o Grafana seguindo o tutorial:
+Para melhorar a visualização dos dados, foi feita a integração do Zabbix com o Grafana, seguindo o tutorial:
 [Tutorial Grafana-Zabbix](https://github.com/RegisBloemer/Grafana-Zabbix-Tutorial)
 
 ### Parâmetros de Configuração
@@ -209,7 +209,7 @@ HOSTNAME      = "SensorHost"
 
 ### Funcionamento do Sistema
 
-O sistema funciona com as placas ESP conectadas ao WiFi enviando dados para o broker MQTT. Os scripts Python se inscrevem nos tópicos relevantes e encaminham os dados para o Zabbix usando o comando `zabbix_sender`. Os dados são então processados e visualizados no dashboard do Zabbix ou Grafana.
+O sistema funciona com a placa ESP8266 conectada ao Wi-Fi enviando dados para o broker MQTT. Os scripts Python se inscrevem nos tópicos relevantes e encaminham os dados para o Zabbix usando o comando `zabbix_sender`. Os dados são então processados e visualizados no dashboard do Zabbix ou Grafana.
 
 #### Formato dos Dados Transmitidos
 
@@ -241,7 +241,7 @@ O sistema funciona com as placas ESP conectadas ao WiFi enviando dados para o br
 Durante o desenvolvimento, diversos problemas foram solucionados:
 
 #### Problemas com ESP8266
-* Problemas de conexão WiFi foram resolvidos verificando SSID e senha
+* Problemas de conexão Wi-Fi foram resolvidos verificando SSID e senha
 * Problemas de conexão MQTT foram solucionados verificando IP e porta do broker
 * Sensores não detectados foram resolvidos verificando fiação e endereços I2C
 

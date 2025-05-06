@@ -101,7 +101,7 @@ O projeto foi desenvolvido utilizando:
 #### 1. Nós Sensores
 
 Para os nós sensores, foram conectados:
-* MPU6050: Pinos SDA, SCL, VCC e GND à placa ESP
+* MPU6050: Pinos SDA (dados), SCL (clock), VCC e GND à placa ESP
 * SW-420: Pinos DO (saída digital), AO (saída analógica, presente apenas em alguns módulos), VCC e GND à placa ESP
 
 As bibliotecas Arduino foram instaladas via Gerenciador de Bibliotecas:

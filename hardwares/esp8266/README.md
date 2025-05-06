@@ -8,7 +8,7 @@ O NodeMCU ESP8266 é um microcontrolador com conectividade Wi-Fi integrado, idea
 ## Características e Especificações
 
 - **Microcontrolador**: Tensilica 32-bit RISC CPU Xtensa LX106
-- **Tensão de operação**: 3.3V
+- **Tensão de operação**: 3,3V
 - **Tensão de entrada**: 7-12V
 - **Pinos de I/O digital (DIO)**: 16
 - **Pinos de entrada analógica (ADC)**: 1

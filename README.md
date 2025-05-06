@@ -10,7 +10,7 @@ Este projeto tem como objetivo desenvolver uma solução de monitoramento de vib
 
 Este projeto surge da busca por soluções acessíveis, eficazes e adaptáveis para o monitoramento de equipamentos industriais. Muitas pequenas e médias indústrias ainda enfrentam dificuldades para implementar sistemas de manutenção inteligente, seja por limitações técnicas, financeiras ou estruturais.
 
-Ao explorar tecnologias como ESP8266, Arduino, sensores como o MPU6050 e a comunicação LoRa, o projeto busca demonstrar que é possível construir sistemas eficientes com baixo custo, ampliando a acessibilidade dessas soluções. A relevância do tema está na prevenção de falhas, na redução de paradas não planejadas e na otimização da manutenção, com impactos diretos sobre a produtividade e a segurança.
+Ao explorar tecnologias como ESP8266, Arduino, módulos como o MPU-6050 e a comunicação LoRa, o projeto busca demonstrar que é possível construir sistemas eficientes com baixo custo, ampliando a acessibilidade dessas soluções. A relevância do tema está na prevenção de falhas, na redução de paradas não planejadas e na otimização da manutenção, com impactos diretos sobre a produtividade e a segurança.
 
 Além disso, o desenvolvimento de soluções com foco em IoT industrial pode gerar benefícios sociais e econômicos ao contribuir com a modernização de processos, o aumento da eficiência energética e a redução de desperdícios. Também promove o aprendizado prático em tecnologias embarcadas e sistemas distribuídos, fundamentais para a formação de engenheiros na era da indústria digital.
 
@@ -110,7 +110,7 @@ As bibliotecas Arduino foram instaladas via Gerenciador de Bibliotecas:
 * `Adafruit Unified Sensor`
 
 Dois sketches diferentes foram desenvolvidos:
-* `mqtt.ino` para o sensor MPU6050
+* `mqtt.ino` para o módulo MPU-6050
 * `mqtt_sw_420.ino` para o sensor SW-420
 
 #### 2. Broker MQTT

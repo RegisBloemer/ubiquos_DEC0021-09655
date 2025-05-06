@@ -1,6 +1,6 @@
 # Módulo MPU-6050 (GY-521)
 
-O MPU-6050 é um sensor **MEMS (Micro-Electro-Mechanical Systems)**, ou **Sistemas Microeletromecânicos**, que integra um acelerômetro e um giroscópio de 3 eixos em um único chip. MEMS são dispositivos extremamente pequenos que combinam componentes mecânicos e eletrônicos em um único circuito integrado, permitindo medições precisas de movimento, orientação e vibração. O MPU-6050 é amplamente utilizado em projetos embarcados, especialmente em aplicações como robótica, drones, wearables e sistemas de estabilização.
+O MPU-6050 é um módulo **MEMS (Micro-Electro-Mechanical Systems)**, ou **Sistemas Microeletromecânicos**, que integra um acelerômetro e um giroscópio de 3 eixos em um único chip. MEMS são dispositivos extremamente pequenos que combinam componentes mecânicos e eletrônicos em um único circuito integrado, permitindo medições precisas de movimento, orientação e vibração. O MPU-6050 é amplamente utilizado em projetos embarcados, especialmente em aplicações como robótica, drones, wearables e sistemas de estabilização.
 
 ## Imagem do Pinout
 ![Pinout MPU-6050](mpu6050-pinout.png)

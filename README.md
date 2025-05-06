@@ -260,3 +260,7 @@ Durante o desenvolvimento, diversos problemas foram solucionados:
               -k sensor.acelerometro \
               -o '{"x":0,"y":0,"z":0}'
   ```
+  
+## Cenário 2 - Módulos LoRa com Arduino UNO
+
+

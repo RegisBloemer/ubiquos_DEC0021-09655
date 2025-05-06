@@ -1,4 +1,4 @@
-# Obiquos - Sistema de Monitoramento de Sensores
+# Sistema de Monitoramento de Vibração para Detecção de Anomalias e Falhas em Máquinas na Indústria 4.0
 
 ## Visão Geral do Projeto
 

@@ -2,7 +2,19 @@
 
 ## Visão Geral do Projeto
 
-O Obiquos foi desenvolvido como um sistema de monitoramento IoT que coleta dados de dois diferentes sensores (acelerômetros e sensores de vibração) não simultaneamente. O sistema publica os dados via MQTT e os encaminha para o Zabbix para monitoramento e alertas, permitindo o monitoramento em tempo real das condições físicas do ambiente.
+O projeto **"Sistema de Monitoramento de Vibração e Detecção de Anomalias na Indústria 4.0"**, desenvolvido como trabalho final para a disciplina de **Projeto de Sistemas Ubíquos e Embarcados** do curso de **Engenharia de Computação da UFSC**, tem como objetivo implementar uma solução inteligente de monitoramento para detecção de falhas em máquinas industriais.
+
+O sistema foi estruturado em **dois cenários distintos**, com o propósito de investigar a melhor abordagem, considerando aspectos específicos dos desenvolvedores.
+
+### Cenário 1 - ESP8266 com sensores
+
+No **primeiro cenário**, um **ESP8266** é conectado ao módulo **MPU6050** (acelerômetro) e ao sensor **SW-420** (sensor de vibração), os quais coletam dados de forma contínua. Esses dados são transmitidos via **MQTT** e enviados para o **Zabbix**, permitindo o monitoramento remoto e a geração de alertas em tempo real.
+
+### Cenário 2 - Módulos LoRa com Arduino UNO
+
+No **segundo cenário**, dois módulos **Heltec WiFi LoRa 32 V3** são utilizados: um está conectado ao **PC** como receptor dos dados, enquanto o outro está ligado a um **Arduino UNO**, que fornece alimentação ao sistema e coleta as informações dos sensores.
+
+O **ESP32 LoRa**, neste cenário, atua exclusivamente no envio dos dados para o receptor via comunicação **LoRa**, ampliando a cobertura e o alcance do monitoramento.
 
 ## Arquitetura
 

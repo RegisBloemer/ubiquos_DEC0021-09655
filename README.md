@@ -36,8 +36,8 @@ Neste cenário, os módulos são responsáveis exclusivamente pelo envio dos dad
 
 A arquitetura implementada consiste em três componentes principais:
 
-1. **Nós Sensores**: Microcontroladores ESP8266 com sensores conectados  
-2. **Broker MQTT**: Recebe e distribui dados dos sensores  
+1. **Nós Sensores**: Microcontrolador ESP8266 conectado aos sensores   
+2. **Broker MQTT**: Recebe e distribui os dados dos sensores  
 3. **Ponte MQTT-Zabbix**: Scripts Python que se inscrevem em tópicos MQTT e encaminham dados para o Zabbix  
 
 <div align="center">

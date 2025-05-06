@@ -53,13 +53,13 @@ graph TD
 
 ### Montagem do Hardware
 
-#### ESP32 com Sensor de Vibração SW-420
+#### ESP8266 com Sensor de Vibração SW-420
 
 ![ESP32 com Sensor SW-420](./images/sw420.png)
 
 <!-- Espaço para inserir a imagem da ESP32 com o sensor SW-420 -->
 
-#### ESP32 com Sensor MPU6050
+#### ESP32 com módulo MPU6050
 
 ![ESP32 com Sensor MPU6050](./images/mpu6050.png)
 

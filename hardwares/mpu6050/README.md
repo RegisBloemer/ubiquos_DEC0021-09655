@@ -5,7 +5,7 @@ O MPU-6050 é um sensor **MEMS (Micro-Electro-Mechanical Systems)**, ou **Sistem
 ## Imagem do Pinout
 ![Pinout MPU-6050](mpu6050-pinout.png)
 
-## Especificações Técnicas
+## Características e Especificações
 
 | Parâmetro                        | Descrição                                                       |
 |----------------------------------|-----------------------------------------------------------------|

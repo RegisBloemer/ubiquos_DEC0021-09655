@@ -61,7 +61,7 @@ graph TD
 
 #### ESP32 com módulo MPU6050
 
-![ESP32 com Sensor MPU6050](./images/mpu6050.png)
+![ESP32 com Sensor MPU6050](./images/mpu6050-esp8266.png)
 
 <!-- Espaço para inserir a imagem da ESP32 com o sensor MPU6050 -->
 

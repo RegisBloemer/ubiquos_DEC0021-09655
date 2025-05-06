@@ -8,7 +8,7 @@ O sistema foi estruturado em **dois cenários distintos**, com o propósito de i
 
 ### Cenário 1 - ESP8266 com sensores
 
-No **primeiro cenário**, um **ESP8266** é conectado ao módulo **MPU6050** (acelerômetro) e ao sensor **SW-420** (sensor de vibração), os quais coletam dados de forma contínua. Esses dados são transmitidos via **MQTT** e enviados para o **Zabbix**, permitindo o monitoramento remoto e a geração de alertas em tempo real.
+No **primeiro cenário**, foram realizados testes com um **ESP8266** conectado ao módulo **MPU6050** (acelerômetro) e ao sensor **SW-420** (sensor de vibração), de forma que cada sensor foi utilizado separadamente para coleta de dados. Os dados coletados são transmitidos via **MQTT** e enviados para o **Zabbix**, permitindo o monitoramento remoto e a geração de alertas em tempo real.
 
 ### Cenário 2 - Módulos LoRa com Arduino UNO
 

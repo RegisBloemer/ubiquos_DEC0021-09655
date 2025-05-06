@@ -264,3 +264,68 @@ Durante o desenvolvimento, diversos problemas foram solucionados:
 ## Cenário 2 - Módulos LoRa com Arduino UNO
 
 
+# Requisitos do Sistema de Monitoramento de Vibração para Indústria 4.0
+
+## Requisitos Comuns aos Dois Cenários
+
+### Requisitos Funcionais Comuns (RFC)
+
+- **RFC1** - O sistema deve capturar dados de aceleração nos eixos X, Y e Z através do sensor MPU-6050
+- **RFC2** - O sistema deve processar dados para detecção de anomalias em equipamentos
+- **RFC3** - O sistema deve permitir a visualização dos dados de vibração e aceleração
+- **RFC4** - O sistema deve gerar alertas quando detectar padrões anormais de vibração
+
+### Requisitos Não Funcionais Comuns (RNFC)
+
+- **RNFC1** - O sistema deve ser de baixo custo para implementação
+- **RNFC2** - O sistema deve ser modular para permitir a manutenção e expansão
+- **RNFC3** - O software deve ser bem documentado para facilitar a manutenção
+- **RNFC4** - O sistema deve ser capaz de funcionar em ambiente industrial
+
+## Cenário 1 - ESP8266 com Sensores
+
+### Requisitos Funcionais - Cenário 1 (RF1)
+
+- **RF1.1** - O sistema deve capturar dados de vibração através do sensor SW-420
+- **RF1.2** - O sistema deve coletar temperatura do ambiente através do sensor embutido no MPU-6050
+- **RF1.3** - O sistema deve transmitir dados via protocolo MQTT para o broker
+- **RF1.4** - O sistema deve formatar os dados em JSON antes de transmitir
+- **RF1.5** - O sistema deve encaminhar os dados recebidos via MQTT para o servidor Zabbix
+- **RF1.6** - O sistema deve extrair componentes individuais dos dados JSON recebidos
+- **RF1.7** - O sistema deve oferecer visualização gráfica através do Zabbix
+- **RF1.8** - O sistema deve integrar-se com Grafana para visualizações avançadas
+- **RF1.9** - O sistema deve permitir a configuração de limiares para alertas no Zabbix
+
+### Requisitos Não Funcionais - Cenário 1 (RNF1)
+
+- **RNF1.1** - O sistema deve conectar-se a redes WiFi padrão IEEE 802.11b/g/n
+- **RNF1.2** - O tempo de resposta entre a leitura do sensor e a visualização não deve exceder 5 segundos
+- **RNF1.3** - O sistema deve implementar mecanismo de reconexão automática ao WiFi e broker MQTT
+- **RNF1.4** - O sistema deve validar os dados antes de enviá-los ao broker MQTT
+- **RNF1.5** - Os scripts bridge MQTT-Zabbix devem processar no mínimo 10 mensagens por segundo
+- **RNF1.6** - O acesso às interfaces de monitoramento (Zabbix/Grafana) deve ser protegido por autenticação
+- **RNF1.7** - O sistema deve manter uma taxa de perda de pacotes inferior a 5%
+
+## Cenário 2 - Módulos LoRa com Arduino UNO
+
+### Requisitos Funcionais - Cenário 2 (RF2)
+
+- **RF2.1** - O sistema deve transmitir dados via comunicação LoRa entre os módulos
+- **RF2.2** - O sistema deve utilizar um Arduino UNO como fonte de alimentação e processamento inicial
+- **RF2.3** - O sistema deve receber dados no módulo conectado ao PC
+- **RF2.4** - O sistema deve implementar protocolo de comunicação confiável entre os módulos LoRa
+- **RF2.5** - O sistema deve permitir a operação em áreas sem cobertura WiFi
+- **RF2.6** - O sistema deve processar e armazenar localmente os dados antes da transmissão
+- **RF2.7** - O sistema deve permitir configuração remota dos parâmetros de leitura dos sensores
+- **RF2.8** - O sistema deve suportar comunicação bidirecional entre os módulos LoRa
+
+### Requisitos Não Funcionais - Cenário 2 (RNF2)
+
+- **RNF2.1** - A comunicação LoRa deve atingir uma distância mínima de 500 metros em linha de visão
+- **RNF2.2** - O consumo energético dos módulos deve permitir operação por pelo menos 7 dias com bateria
+- **RNF2.3** - O sistema deve operar em ambientes com interferência eletromagnética industrial
+- **RNF2.4** - A solução deve ser resistente a perdas temporárias de comunicação, armazenando dados localmente
+- **RNF2.5** - O atraso máximo aceitável na transmissão de dados críticos não deve exceder 30 segundos
+- **RNF2.6** - O sistema deve implementar mecanismos para confirmar o recebimento dos dados transmitidos
+- **RNF2.7** - O sistema deve ser capaz de operar em temperaturas entre 0°C e 50°C
+- **RNF2.8** - O firmware deve ser atualizável remotamente nos módulos LoRa

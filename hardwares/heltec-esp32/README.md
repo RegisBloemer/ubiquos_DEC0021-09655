@@ -24,4 +24,4 @@ A placa Heltec WiFi LoRa 32 (V3) combina conectividade Wi-Fi, Bluetooth e LoRa e
 | **Temperatura de Operação**  | -20 ~ 70 ℃                                                                |
 | **Dimensões**                 | 50,2 × 25,5 × 10,2 mm                                                     |
 
-Para mais informações, acesse: [https://heltec.org/project/wifi-lora-32-v3/](https://heltec.org/project/wifi-lora-32-v3/)
+Para mais informações, acesse: [https://heltec.org/project/wifi-lora-32-v3/](https://heltec.org/project/wifi-lora-32-v3/).

@@ -22,11 +22,11 @@ O sistema foi estruturado em **dois cenários distintos**, com o propósito de i
 
 ### Cenário 1 - ESP8266 com sensores
 
-No **primeiro cenário**, foram realizados testes com um **ESP8266** conectado ao módulo **MPU6050** (acelerômetro) e ao sensor **SW-420** (sensor de vibração), de forma que cada sensor foi utilizado separadamente para coleta de dados. Os dados coletados são transmitidos via **MQTT** e enviados para o **Zabbix**, permitindo o monitoramento remoto e a geração de alertas em tempo real.
+No **primeiro cenário**, foram realizados testes com um **ESP8266** conectado ao módulo **MPU-6050** (acelerômetro) e ao sensor **SW-420** (sensor de vibração), de forma que cada sensor foi utilizado separadamente para coleta de dados. Os dados coletados são transmitidos via **MQTT** e enviados para o **Zabbix**, permitindo o monitoramento remoto e a geração de alertas em tempo real.
 
 ### Cenário 2 - Módulos LoRa com Arduino UNO
 
-No **segundo cenário**, dois módulos **Heltec WiFi LoRa 32 V3** são utilizados: um está conectado ao **PC** como receptor dos dados, enquanto o outro está ligado a um **Arduino UNO**, que fornece alimentação ao sistema e coleta os dados do sensor **MPU6050**.
+No **segundo cenário**, dois módulos **Heltec WiFi LoRa 32 V3** são utilizados: um está conectado ao **PC** como receptor dos dados, enquanto o outro está ligado a um **Arduino UNO**, que fornece alimentação ao sistema e coleta os dados do módulo **MPU-6050**.
 
 Neste cenário, os módulos são responsáveis exclusivamente pelo envio dos dados via comunicação **LoRa**, ampliando a cobertura e o alcance do monitoramento. Essa abordagem busca contornar os desafios e limitações da Indústria 4.0.
 
@@ -59,7 +59,7 @@ graph TD
 
 <!-- Espaço para inserir a imagem da ESP32 com o sensor SW-420 -->
 
-#### ESP32 com módulo MPU6050
+#### ESP32 com módulo MPU-6050
 
 ![ESP32 com Sensor MPU6050](./images/mpu6050-esp8266.png)
 
@@ -67,14 +67,14 @@ graph TD
 
 ### Sensores Utilizados
 
-* **MPU6050**: Acelerômetro e giroscópio de 3 eixos para detecção de movimentos
+* **MPU-6050**: Acelerômetro e giroscópio de 3 eixos para detecção de movimentos
 * **SW-420**: Sensor de vibração que fornece leituras digitais e analógicas
 
 ### Componentes de Hardware
 
 Para a implementação deste projeto, foram utilizados:
 * Placa de desenvolvimento ESP8266
-* Módulo MPU6050
+* Módulo MPU-6050
 * Sensor de vibração SW-420
 * Fonte de alimentação para a placa ESP8266
 * Fios de conexão
@@ -101,7 +101,7 @@ O projeto foi desenvolvido utilizando:
 #### 1. Nós Sensores
 
 Para os nós sensores, foram conectados:
-* MPU6050: Pinos SDA (dados), SCL (clock), VCC e GND à placa ESP
+* MPU-6050: Pinos SDA (dados), SCL (clock), VCC e GND à placa ESP
 * SW-420: Pinos DO (saída digital), AO (saída analógica, presente apenas em alguns módulos), VCC e GND à placa ESP
 
 As bibliotecas Arduino foram instaladas via Gerenciador de Bibliotecas:
@@ -213,7 +213,7 @@ O sistema funciona com a placa ESP8266 conectada ao Wi-Fi enviando dados para o 
 
 #### Formato dos Dados Transmitidos
 
-##### Acelerômetro (MPU6050)
+##### Acelerômetro (MPU-6050)
 
 ```json
 {

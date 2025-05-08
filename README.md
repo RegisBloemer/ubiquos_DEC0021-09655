@@ -71,7 +71,7 @@ graph TD
 
 #### Diagrama da Arquitetura
 
-![Diagrama da Arquitetura - Cenário 1](.images/diagrama-cenario_1.png)
+![Diagrama da Arquitetura - Cenário 1](./images/diagrama-cenario_1.png)
 
 ### Montagem do Hardware
 

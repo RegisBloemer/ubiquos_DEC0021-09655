@@ -18,5 +18,5 @@ O Dragino LPS8N é um gateway LoRaWAN de interior baseado no chip SX1302. Ele pe
 | **Versão com 4G (opcional)**      | Suporte a módulo 4G opcional                                              |
 | **Função principal**              | Gateway LoRaWAN para transmissão de dados via rede local ou Internet      |
 | **Aplicações comuns**            | Redes LoRaWAN indoor, monitoramento remoto, integração com plataformas IoT |
-| **Tamanho do dispositivo**        | 12 x 12 x 3 cm                                                             |
+| **Tamanho do dispositivo**        | 12 × 12 × 3 cm                                                             |
 | **Peso do dispositivo**           | 187 g 

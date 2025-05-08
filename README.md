@@ -45,10 +45,10 @@ Os dados são então enviados, por meio do **LoRaWAN Gateway**, para a nuvem, on
 
 ### Requisitos Não Funcionais
 
-**Desempenho**: O sistema deve manter a comunicação eficiente entre sensores e servidor MQTT, garantindo fluxo contínuo de dados
-**Escalabilidade**: A arquitetura deve permitir a adição de novos sensores ou dispositivos ESP com alterações mínimas na configuração existente
-**Manutenibilidade**: O código deve ser modular e organizado, facilitando atualizações, testes e futuras melhorias
-**Portabilidade**: O sistema deve ser compatível com diferentes placas baseadas em ESP8266 ou ESP32, exigindo poucas modificações no código
+- **Desempenho**: O sistema deve manter a comunicação eficiente entre sensores e servidor MQTT, garantindo fluxo contínuo de dados
+- **Escalabilidade**: A arquitetura deve permitir a adição de novos sensores ou dispositivos ESP com alterações mínimas na configuração existente
+- **Manutenibilidade**: O código deve ser modular e organizado, facilitando atualizações, testes e futuras melhorias
+- **Portabilidade**: O sistema deve ser compatível com diferentes placas baseadas em ESP8266 ou ESP32, exigindo poucas modificações no código
 
 ### Arquitetura
 
@@ -68,6 +68,10 @@ graph TD
 ```
 
 </div>
+
+#### Diagrama da Arquitetura
+
+![Diagrama da Arquitetura - Cenário 1](diagrama-cenario_1.png)
 
 ### Montagem do Hardware
 

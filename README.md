@@ -26,9 +26,9 @@ No **primeiro cenário**, foram realizados testes com um **ESP8266** conectado a
 
 ### Cenário 2 - Módulos LoRa com Arduino UNO
 
-No **segundo cenário**, dois módulos **Heltec WiFi LoRa 32 V3** são utilizados: um está conectado ao **PC** como receptor dos dados, enquanto o outro está ligado a um **Arduino UNO**, que fornece alimentação ao sistema e coleta os dados do módulo **MPU-6050**.
+No **segundo cenário**, um módulo **Heltec WiFi LoRa 32 V3** é utilizado para coletar e transmitir os dados adquiridos por um **Arduino UNO** conectado a um sensor **MPU-6050**, responsável por medir a vibração do motor. O **Arduino** realiza a leitura dos dados do sensor e os envia ao módulo **Heltec**, que transmite essas informações via **LoRa** ao **LoRaWAN Gateway**.
 
-Neste cenário, os módulos são responsáveis exclusivamente pelo envio dos dados via comunicação **LoRa**, ampliando a cobertura e o alcance do monitoramento. Essa abordagem busca contornar os desafios e limitações da Indústria 4.0.
+Os dados são então enviados, por meio do **LoRaWAN Gateway**, para a nuvem, onde serão integrados à plataforma **Zabbix**, que será responsável por armazená-los e transmiti-los para visualização no **Grafana**, além de aplicar algum algoritmo de **IA** para detecção de anomalias. Essa abordagem amplia a cobertura do sistema e contorna limitações típicas da **Indústria 4.0**, como a conectividade em ambientes industriais complexos, garantindo **escalabilidade**.
 
 ## Cenário 1 - ESP8266 com sensores
 

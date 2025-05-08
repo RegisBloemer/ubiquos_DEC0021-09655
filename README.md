@@ -341,4 +341,4 @@ Para a implementação deste cenário, foram utilizados:
 * Fios de conexão
 * Computador de acordo com as necessidades do cenário (ainda em definição...)
 
-<p style="color:red;"><strong>Este cenário sofreu alterações, por isso todas as informações ainda não foram colocadas aqui.</strong></p>
+**❗ Atenção:** Este cenário sofreu alterações, por isso todas as informações ainda não foram colocadas aqui. 

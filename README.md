@@ -77,7 +77,7 @@ graph TD
 
 <!-- Espaço para inserir a imagem da ESP32 com o sensor SW-420 -->
 
-#### ESP32 com módulo MPU-6050
+#### ESP8266 com módulo MPU-6050
 
 ![ESP32 com Sensor MPU6050](./images/mpu6050-esp8266.png)
 

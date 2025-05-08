@@ -52,11 +52,10 @@ Os dados são então enviados, por meio do **LoRaWAN Gateway**, para a nuvem, on
 
 ### Arquitetura
 
-A arquitetura implementada consiste em três componentes principais:
-
-1. **Nós Sensores**: Microcontrolador ESP8266 conectado aos sensores   
+1. **Nós Sensores**: Microcontrolador ESP8266 conectado aos sensores  
 2. **Broker MQTT**: Recebe e distribui os dados dos sensores  
 3. **Ponte MQTT-Zabbix**: Scripts Python que se inscrevem em tópicos MQTT e encaminham dados para o Zabbix  
+4. **Grafana**: Visualiza os dados recebidos pelo Zabbix  
 
 <div align="center">
 
@@ -65,7 +64,7 @@ graph TD
    A[ESP8266/Arduino com Sensores] -->|MQTT| B[Broker MQTT]
    B -->|MQTT| C[Ponte MQTT-Zabbix]
    C -->|Zabbix Sender| D[Servidor Zabbix]
-```
+   D -->|Grafana| E[Dashboard Grafana]
 
 </div>
 

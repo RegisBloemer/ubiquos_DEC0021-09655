@@ -65,6 +65,7 @@ graph TD
    B -->|MQTT| C[Ponte MQTT-Zabbix]
    C -->|Zabbix Sender| D[Servidor Zabbix]
    D -->|Grafana| E[Dashboard Grafana]
+```
 
 </div>
 

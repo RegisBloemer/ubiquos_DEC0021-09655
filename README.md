@@ -302,7 +302,7 @@ Durante o desenvolvimento, diversos problemas foram solucionados:
 
 ### Arquitetura
 
-1. **Nós Sensores**: **Arduino UNO** conectado ao sensor **MPU-6050** para coletar dados de vibração  
+1. **Nó Sensor**: **Arduino UNO** conectado ao módulo **MPU-6050** para coletar dados de vibração  
 2. **Heltec ESP32 WiFi LoRa**: Módulo responsável por transmitir os dados coletados pelo **Arduino UNO** via **LoRa**  
 3. **LoRaWAN Gateway**: Recebe os dados transmitidos pelo **Heltec ESP32 WiFi LoRa** via **LoRa**  
 4. **Plataforma Zabbix**: Armazena e monitora os dados recebidos do **LoRaWAN Gateway**  

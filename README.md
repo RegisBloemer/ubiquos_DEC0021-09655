@@ -311,10 +311,12 @@ Durante o desenvolvimento, diversos problemas foram solucionados:
 <div align="center">
 
 ```mermaid
+graph TD
  A[Arduino UNO com Sensor MPU-6050] -->|Serial| B[Heltec ESP32 WiFi LoRa]
    B -->|LoRa| C[LoRaWAN Gateway]
    C -->|MQTT| D[Servidor Zabbix]
    D -->|Grafana| E[Dashboard Grafana]
+```
 
 </div>
 

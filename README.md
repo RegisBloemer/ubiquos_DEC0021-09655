@@ -26,9 +26,9 @@ No **primeiro cenário**, foram realizados testes com um **ESP8266** conectado a
 
 ### Cenário 2 - Arduino UNO, Heltec WiFi LoRa 32 V3 e Dragino LPS8N
 
-No **segundo cenário**, um módulo **Heltec WiFi LoRa 32 V3** é utilizado para coletar e transmitir os dados adquiridos por um **Arduino UNO** conectado a um sensor **MPU-6050**, responsável por medir a vibração do motor. O **Arduino** realiza a leitura dos dados do sensor e os envia ao módulo **Heltec**, que transmite essas informações via **LoRa** ao **LoRaWAN Gateway**.
+No **segundo cenário**, um módulo **Heltec WiFi LoRa 32 V3** é utilizado para coletar e transmitir os dados adquiridos por um **Arduino UNO** conectado a um sensor **MPU-6050**, responsável por medir a vibração do motor. O **Arduino** realiza a leitura dos dados do sensor e os envia ao módulo **Heltec**, que transmite essas informações via **LoRa** ao **LoRaWAN Gateway (Dragino LPS8N)**.
 
-Os dados são então enviados, por meio do **LoRaWAN Gateway (Dragino LPS8N)**, para a nuvem, onde serão integrados à plataforma **Zabbix**, que será responsável por armazená-los e transmiti-los para visualização no **Grafana**, além de aplicar algum algoritmo de **Inteligência Artificial (IA)** para detecção de anomalias. Essa abordagem amplia a cobertura do sistema e contorna limitações típicas da **Indústria 4.0**, como a conectividade em ambientes industriais complexos, garantindo **escalabilidade**.
+Os dados são então enviados, por meio do **LoRaWAN Gateway**, para a nuvem, onde serão integrados à plataforma **Zabbix**, que será responsável por armazená-los e transmiti-los para visualização no **Grafana**, além de aplicar algum algoritmo de **Inteligência Artificial (IA)** para detecção de anomalias. Essa abordagem amplia a cobertura do sistema e contorna limitações típicas da **Indústria 4.0**, como a conectividade em ambientes industriais complexos, garantindo **escalabilidade**.
 
 ## Cenário 1 - ESP8266 com sensores
 

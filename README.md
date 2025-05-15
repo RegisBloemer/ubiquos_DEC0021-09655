@@ -22,23 +22,40 @@ O sistema foi estruturado em **dois cenários distintos**, com o propósito de i
 
 ### Cenário 1 - ESP8266 com sensores
 
-No **primeiro cenário**, foram realizados testes com um **ESP8266** conectado ao módulo **MPU-6050** (acelerômetro) e ao sensor **SW-420** (sensor de vibração), de forma que cada sensor foi utilizado separadamente para coleta de dados. Os dados coletados são transmitidos via **MQTT** e enviados para o **Zabbix**, permitindo o monitoramento remoto e a geração de alertas em tempo real.
+No **primeiro cenário**, foram realizados testes com um **ESP8266** conectado ao módulo **MPU-6050** (acelerômetro) e ao sensor **SW-420** (sensor de vibração), de forma que cada sensor foi utilizado separadamente para coleta de dados. Os dados coletados são transmitidos via **MQTT** e enviados para o **Zabbix**, permitindo o monitoramento remoto e a geração de alertas em tempo real. Os dados recebidos pelo **Zabbix** são então visualizados no **Grafana**, proporcionando uma interface gráfica para análise e monitoramento das condições dos sensores em tempo real.
 
-### Cenário 2 - Módulos LoRa com Arduino UNO
+### Cenário 2 - Arduino UNO, Heltec WiFi LoRa 32 V3 e Dragino LPS8N
 
-No **segundo cenário**, dois módulos **Heltec WiFi LoRa 32 V3** são utilizados: um está conectado ao **PC** como receptor dos dados, enquanto o outro está ligado a um **Arduino UNO**, que fornece alimentação ao sistema e coleta os dados do módulo **MPU-6050**.
+No **segundo cenário**, um módulo **Heltec WiFi LoRa 32 V3** é utilizado para coletar e transmitir os dados adquiridos por um **Arduino UNO** conectado a um sensor **MPU-6050**, responsável por medir a vibração do motor. O **Arduino** realiza a leitura dos dados do sensor e os envia ao módulo **Heltec**, que transmite essas informações via **LoRa** ao **LoRaWAN Gateway (Dragino LPS8N)**.
 
-Neste cenário, os módulos são responsáveis exclusivamente pelo envio dos dados via comunicação **LoRa**, ampliando a cobertura e o alcance do monitoramento. Essa abordagem busca contornar os desafios e limitações da Indústria 4.0.
+Os dados são então enviados, por meio do **LoRaWAN Gateway**, para a nuvem, onde serão integrados à plataforma **Zabbix**, que será responsável por armazená-los e transmiti-los para visualização no **Grafana**, além de aplicar algum algoritmo de **Inteligência Artificial (IA)** para detecção de anomalias. Essa abordagem amplia a cobertura do sistema e contorna limitações típicas da **Indústria 4.0**, como a conectividade em ambientes industriais complexos, garantindo **escalabilidade**.
 
 ## Cenário 1 - ESP8266 com sensores
 
+### Requisitos Funcionais
+
+- Capturar dados de vibração com o sensor SW-420 ou de aceleração com o MPU-6050
+- Transmitir os dados coletados usando o protocolo MQTT
+- Enviar os dados em formato JSON para o broker MQTT
+- Encaminhar os dados recebidos para o servidor Zabbix
+- Interpretar os dados JSON para separar os componentes recebidos
+- Exibir os dados em gráficos por meio do Zabbix
+- Integrar o Zabbix ao Grafana para visualizações mais completas
+- Permitir a configuração de limites de alerta diretamente no Zabbix
+
+### Requisitos Não Funcionais
+
+- **Desempenho**: O sistema deve manter a comunicação eficiente entre sensores e servidor MQTT, garantindo fluxo contínuo de dados
+- **Escalabilidade**: A arquitetura deve permitir a adição de novos sensores ou dispositivos ESP com alterações mínimas na configuração existente
+- **Manutenibilidade**: O código deve ser modular e organizado, facilitando atualizações, testes e futuras melhorias
+- **Portabilidade**: O sistema deve ser compatível com diferentes placas baseadas em ESP8266 ou ESP32, exigindo poucas modificações no código
+
 ### Arquitetura
 
-A arquitetura implementada consiste em três componentes principais:
-
-1. **Nós Sensores**: Microcontrolador ESP8266 conectado aos sensores   
+1. **Nós Sensores**: Microcontrolador ESP8266 conectado aos sensores  
 2. **Broker MQTT**: Recebe e distribui os dados dos sensores  
 3. **Ponte MQTT-Zabbix**: Scripts Python que se inscrevem em tópicos MQTT e encaminham dados para o Zabbix  
+4. **Grafana**: Visualiza os dados recebidos pelo Zabbix  
 
 <div align="center">
 
@@ -47,23 +64,28 @@ graph TD
    A[ESP8266/Arduino com Sensores] -->|MQTT| B[Broker MQTT]
    B -->|MQTT| C[Ponte MQTT-Zabbix]
    C -->|Zabbix Sender| D[Servidor Zabbix]
+   D -->|Grafana| E[Dashboard Grafana]
 ```
 
 </div>
+
+#### Diagrama da Arquitetura
+
+![Diagrama da Arquitetura - Cenário 1](./images/diagrama-cenario_1.png)
 
 ### Montagem do Hardware
 
 #### ESP8266 com Sensor de Vibração SW-420
 
-![ESP32 com Sensor SW-420](./images/sw420.png)
+![ESP866com Sensor SW-420](./images/sw420.png)
 
-<!-- Espaço para inserir a imagem da ESP32 com o sensor SW-420 -->
+<!-- Espaço para inserir a imagem da ESP8266 com o sensor SW-420 -->
 
-#### ESP32 com módulo MPU-6050
+#### ESP8266 com módulo MPU-6050
 
-![ESP32 com Sensor MPU6050](./images/mpu6050-esp8266.png)
+![ESP8266 com Módulo MPU-6050](./images/mpu6050-esp8266.png)
 
-<!-- Espaço para inserir a imagem da ESP32 com o sensor MPU6050 -->
+<!-- Espaço para inserir a imagem da ESP8266 com o módulo MPU-6050 -->
 
 ### Sensores Utilizados
 
@@ -72,7 +94,7 @@ graph TD
 
 ### Componentes de Hardware
 
-Para a implementação deste projeto, foram utilizados:
+Para a implementação deste cenário, foram utilizados:
 * Placa de desenvolvimento ESP8266
 * Módulo MPU-6050
 * Sensor de vibração SW-420
@@ -82,7 +104,7 @@ Para a implementação deste projeto, foram utilizados:
 
 ### Software Implementado
 
-O projeto foi desenvolvido utilizando:
+O cenário foi desenvolvido utilizando:
 * Arduino IDE para a programação da placa ESP8266
 * Bibliotecas para ESP8266:
   * `Wire.h`
@@ -261,71 +283,62 @@ Durante o desenvolvimento, diversos problemas foram solucionados:
               -o '{"x":0,"y":0,"z":0}'
   ```
   
-## Cenário 2 - Módulos LoRa com Arduino UNO
+## Cenário 2 - Arduino UNO, Heltec WiFi LoRa 32 V3 e Dragino LPS8N
 
+### Requisitos Funcionais 
 
-# Requisitos do Sistema de Monitoramento de Vibração para Indústria 4.0
+- Estabelecer comunicação entre o Heltec ESP32 WiFi LoRa e o LoRaWAN Gateway para a transmissão de dados a longas distâncias
+- Utilizar o Arduino UNO como base de alimentação, coleta e transmissão inicial dos dados do sensor
+- Integrar os dados recebidos pelo LoRaWAN Gateway à plataforma Zabbix para monitoramento e armazenamento
+- Visualizar os dados recebidos e processados no Grafana, com gráficos e dashboards em tempo real
+- Aplicar algoritmos de IA na plataforma para detectar anomalias nos dados de vibração e fornecer alertas
+  
+### Requisitos Não Funcionais
 
-## Requisitos Comuns aos Dois Cenários
+- **Desempenho**: Garantir que a troca de mensagens entre os módulos ocorra de forma fluida e estável
+- **Escalabilidade**: Permitir a adição de novos sensores ou módulos LoRa com poucas alterações no sistema
+- **Manutenibilidade**: Manter o código modular e bem comentado para facilitar futuras modificações
+- **Portabilidade**: Garantir compatibilidade com outras placas Arduino e módulos LoRa com pequenas adaptações
 
-### Requisitos Funcionais Comuns (RFC)
+### Arquitetura
 
-- **RFC1** - O sistema deve capturar dados de aceleração nos eixos X, Y e Z através do sensor MPU-6050
-- **RFC2** - O sistema deve processar dados para detecção de anomalias em equipamentos
-- **RFC3** - O sistema deve permitir a visualização dos dados de vibração e aceleração
-- **RFC4** - O sistema deve gerar alertas quando detectar padrões anormais de vibração
+1. **Nó Sensor**: **Arduino UNO** conectado ao módulo **MPU-6050** para coletar dados de vibração  
+2. **Heltec ESP32 WiFi LoRa**: Módulo responsável por transmitir os dados coletados pelo **Arduino UNO** via **LoRa**  
+3. **LoRaWAN Gateway**: Recebe os dados transmitidos pelo **Heltec ESP32 WiFi LoRa** via **LoRa**  
+4. **Plataforma Zabbix**: Armazena e monitora os dados recebidos do **LoRaWAN Gateway**  
+5. **Grafana**: Visualiza os dados armazenados no **Zabbix**  
 
-### Requisitos Não Funcionais Comuns (RNFC)
+<div align="center">
 
-- **RNFC1** - O sistema deve ser de baixo custo para implementação
-- **RNFC2** - O sistema deve ser modular para permitir a manutenção e expansão
-- **RNFC3** - O software deve ser bem documentado para facilitar a manutenção
-- **RNFC4** - O sistema deve ser capaz de funcionar em ambiente industrial
+```mermaid
+graph TD
+ A[Arduino UNO com Sensor MPU-6050] -->|Serial| B[Heltec ESP32 WiFi LoRa]
+   B -->|LoRa| C[LoRaWAN Gateway]
+   C -->|MQTT| D[Servidor Zabbix]
+   D -->|Grafana| E[Dashboard Grafana]
+```
 
-## Cenário 1 - ESP8266 com Sensores
+</div>
 
-### Requisitos Funcionais - Cenário 1 (RF1)
+#### Diagrama da Arquitetura
 
-- **RF1.1** - O sistema deve capturar dados de vibração através do sensor SW-420
-- **RF1.2** - O sistema deve coletar temperatura do ambiente através do sensor embutido no MPU-6050
-- **RF1.3** - O sistema deve transmitir dados via protocolo MQTT para o broker
-- **RF1.4** - O sistema deve formatar os dados em JSON antes de transmitir
-- **RF1.5** - O sistema deve encaminhar os dados recebidos via MQTT para o servidor Zabbix
-- **RF1.6** - O sistema deve extrair componentes individuais dos dados JSON recebidos
-- **RF1.7** - O sistema deve oferecer visualização gráfica através do Zabbix
-- **RF1.8** - O sistema deve integrar-se com Grafana para visualizações avançadas
-- **RF1.9** - O sistema deve permitir a configuração de limiares para alertas no Zabbix
+![Diagrama da Arquitetura - Cenário 2](./images/diagrama-cenario_2.png)
 
-### Requisitos Não Funcionais - Cenário 1 (RNF1)
+### Montagem do Hardware
 
-- **RNF1.1** - O sistema deve conectar-se a redes WiFi padrão IEEE 802.11b/g/n
-- **RNF1.2** - O tempo de resposta entre a leitura do sensor e a visualização não deve exceder 5 segundos
-- **RNF1.3** - O sistema deve implementar mecanismo de reconexão automática ao WiFi e broker MQTT
-- **RNF1.4** - O sistema deve validar os dados antes de enviá-los ao broker MQTT
-- **RNF1.5** - Os scripts bridge MQTT-Zabbix devem processar no mínimo 10 mensagens por segundo
-- **RNF1.6** - O acesso às interfaces de monitoramento (Zabbix/Grafana) deve ser protegido por autenticação
-- **RNF1.7** - O sistema deve manter uma taxa de perda de pacotes inferior a 5%
+### Sensores Utilizados
 
-## Cenário 2 - Módulos LoRa com Arduino UNO
+* **MPU-6050**: Acelerômetro e giroscópio de 3 eixos para detecção de movimentos
 
-### Requisitos Funcionais - Cenário 2 (RF2)
+### Componentes de Hardware
 
-- **RF2.1** - O sistema deve transmitir dados via comunicação LoRa entre os módulos
-- **RF2.2** - O sistema deve utilizar um Arduino UNO como fonte de alimentação e processamento inicial
-- **RF2.3** - O sistema deve receber dados no módulo conectado ao PC
-- **RF2.4** - O sistema deve implementar protocolo de comunicação confiável entre os módulos LoRa
-- **RF2.5** - O sistema deve permitir a operação em áreas sem cobertura WiFi
-- **RF2.6** - O sistema deve processar e armazenar localmente os dados antes da transmissão
-- **RF2.7** - O sistema deve permitir configuração remota dos parâmetros de leitura dos sensores
-- **RF2.8** - O sistema deve suportar comunicação bidirecional entre os módulos LoRa
+Para a implementação deste cenário, foram utilizados:
+* Arduino UNO
+* Módulo MPU-6050
+* Heltec WiFi LoRa 32 V3
+* Dragino LPS8N
+* Fonte de alimentação para o Arduino UNO
+* Fios de conexão
+* Computador de acordo com as necessidades do cenário (ainda em definição...)
 
-### Requisitos Não Funcionais - Cenário 2 (RNF2)
-
-- **RNF2.1** - A comunicação LoRa deve atingir uma distância mínima de 500 metros em linha de visão
-- **RNF2.2** - O consumo energético dos módulos deve permitir operação por pelo menos 7 dias com bateria
-- **RNF2.3** - O sistema deve operar em ambientes com interferência eletromagnética industrial
-- **RNF2.4** - A solução deve ser resistente a perdas temporárias de comunicação, armazenando dados localmente
-- **RNF2.5** - O atraso máximo aceitável na transmissão de dados críticos não deve exceder 30 segundos
-- **RNF2.6** - O sistema deve implementar mecanismos para confirmar o recebimento dos dados transmitidos
-- **RNF2.7** - O sistema deve ser capaz de operar em temperaturas entre 0°C e 50°C
-- **RNF2.8** - O firmware deve ser atualizável remotamente nos módulos LoRa
+**❗Atenção:** Este cenário sofreu alterações, por isso todas as informações ainda não foram colocadas aqui. 

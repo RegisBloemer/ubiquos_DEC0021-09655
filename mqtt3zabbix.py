@@ -19,7 +19,8 @@ KEY_NIVEL  = "sensor.vibration"
 # Lista de alvos Zabbix
 ZABBIX_TARGETS = [
     {"server": "regis-nitro-an515-51", "port": "10051"},
-    {"server": "192.168.66.210",         "port": "10051"},
+    {"server": "192.168.67.210",  "port": "10051"},
+    
 ]
 
 # ---------- CALLBACKS MQTT ----------

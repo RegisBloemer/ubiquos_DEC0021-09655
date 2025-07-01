@@ -15,7 +15,7 @@
  const char* password = "mlki6803";
  
  // ---------- MQTT ----------
- const char* mqtt_server = "192.168.66.104";
+ const char* mqtt_server = "192.168.67.104";
  const int   mqtt_port   = 1883;
  const char* mqtt_topic  = "sensor/vibracao";
  

@@ -1,129 +1,47 @@
 ## 🎯 Objetivo
 
-Escutar mensagens MQTT no tópico `sensor/vibracao` e enviar **apenas** o valor do campo `nivel` para dois servidores Zabbix, usando o utilitário `zabbix_sender`.
+Coletar dados de vibração do sensor MPU-6050 conectado a um Arduino UNO, transmitir esses dados via LoRa pelo módulo Heltec ESP32 WiFi LoRa para um LoRaWAN Gateway, que encaminha os dados para a plataforma **The Things Stack Sandbox** (The Things Network). Esta plataforma, por sua vez, encaminha os dados para o **ThingSpeak**, que é utilizado para visualização e análise dos dados em dashboards.
 
 ---
 
-## 📦 Dependências
+## 📦 Componentes e Bibliotecas Utilizadas
 
-* **Python 3**
-* Biblioteca **paho-mqtt**
-
-  ```bash
-  pip install paho-mqtt
-  ```
-* Utilitário **zabbix\_sender** (do pacote Zabbix Agent)
-* Comando `json` (builtin do Python)
-* Módulo `subprocess` (builtin do Python)
+- **Arduino UNO** com sensor **MPU-6050** (acelerômetro e giroscópio 3 eixos)
+- **Heltec ESP32 WiFi LoRa 32 (V3)** (módulo transmissor via LoRa)
+- **Dragino LPS8N** (LoRaWAN Gateway)
+- Biblioteca **Wire.h** para comunicação I2C com MPU-6050
+- Biblioteca e arquivos relacionados à pilha **LoRaWan_APP** para ESP32 Heltec, provenientes da biblioteca Heltec ESP32 Dev-Boards  
+- Comunicação serial UART entre Arduino UNO e Heltec ESP32 (velocidade 115200 bps)
 
 ---
 
-## ⚙️ Configurações
+## ⚙️ Configurações e Comunicação entre módulos
 
-```python
-# Broker MQTT
-MQTT_BROKER = "localhost"
-MQTT_PORT   = 1883
-MQTT_TOPIC  = "sensor/vibracao"
-
-# Identificação no Zabbix
-HOSTNAME   = "SensorHost"
-KEY_NIVEL  = "sensor.vibration"
-
-# Destinos Zabbix (host e porta)
-ZABBIX_TARGETS = [
-    {"server": "regis-nitro-an515-51", "port": "10051"},
-    {"server": "192.168.67.210",  "port": "10051"},  # este host é um Raspberry Pi 3
-]
-```
-
-* **Obs.**: Um dos servidores Zabbix está rodando em um **Raspberry Pi 3**.
-  Para instalar o Zabbix Agent neste dispositivo, você pode seguir este tutorial:
-  [https://www.youtube.com/watch?v=8JZXbsIQ\_YU\&ab\_channel=SimplificandoRedes](https://www.youtube.com/watch?v=8JZXbsIQ_YU&ab_channel=SimplificandoRedes)
+| Módulo                  | Função                                     | Comunicação                            |
+|-------------------------|--------------------------------------------|--------------------------------------|
+| Arduino UNO             | Coleta os dados brutos do MPU-6050         | I2C (Wire) para sensor               |
+| Arduino UNO - Heltec   | Envia dados via Serial UART (pinos definidos) | UART1 RX no GPIO43 do Heltec         |
+| Heltec ESP32 WiFi LoRa  | Recebe dados via UART, empacota e transmite via LoRa | LoRa para LoRaWAN Gateway            |
+| LoRaWAN Gateway (Dragino) | Recebe pacote LoRa e encaminha para The Things Stack Sandbox | The Things Stack realiza o processamento |
+| The Things Stack Sandbox| Plataforma LoRaWAN que gerencia dispositivos, segurança e roteamento | Encaminha dados para ThingSpeak via integração MQTT/Webhook |
+| ThingSpeak              | Plataforma de visualização e análise dos dados | Dashboards e gráficos em tempo real |
 
 ---
 
-## 🔌 Callbacks MQTT
+## Fluxo Geral do Sistema Atualizado
 
-### `on_connect`
-
-```python
-def on_connect(client, userdata, flags, rc):
-    print(f"Conectado ao MQTT (rc={rc})")
-    client.subscribe(MQTT_TOPIC)
-```
-
-* Disparado quando conectar no broker.
-* Exibe código de retorno (`rc`) e faz subscribe do tópico.
-
-### `on_message`
-
-```python
-def on_message(client, userdata, msg):
-    try:
-        data = json.loads(msg.payload.decode())
-        if "nivel" in data:
-            send_to_zabbix(KEY_NIVEL, data["nivel"])
-    except Exception as e:
-        print("Erro ao processar a mensagem:", e)
-```
-
-* Recebe cada mensagem (`msg.payload`) como **JSON**.
-* Se existir o campo `"nivel"`, chama `send_to_zabbix` passando a **chave** e o **valor**.
+1. **Sensor + Arduino UNO**: coleta e processa dados do MPU-6050, enviando valores via serial para o Heltec ESP32.
+2. **Heltec ESP32 WiFi LoRa**: recebe dados da serial, conecta-se à rede LoRaWAN, empacota os dados e transmite para o LoRaWAN Gateway Dragino LPS8N.
+3. **LoRaWAN Gateway Dragino LPS8N**: recebe pacotes LoRa e encaminha para a plataforma **The Things Stack Sandbox**.
+4. **The Things Stack Sandbox**: gerencia a rede LoRaWAN, faz a autenticação e encaminha os dados para a plataforma **ThingSpeak** usando integração (MQTT, HTTP webhook, etc).
+5. **ThingSpeak**: recebe os dados, armazena e exibe dashboards e gráficos em tempo real para análise.
+6. **(Opcional)** Algoritmos de IA podem ser aplicados sobre os dados para detectar anomalias e gerar alertas de manutenção preditiva.
 
 ---
 
-## 🚀 Envio ao Zabbix
+## Observações Importantes
 
-```python
-def send_to_zabbix(key, value):
-    payload = json.dumps({"nivel": value})
-    print(f"[ZBX-SEND] key={key} value={payload}")
-
-    for target in ZABBIX_TARGETS:
-        cmd = [
-            "zabbix_sender",
-            "-z", target["server"],
-            "-p", target["port"],
-            "-s", HOSTNAME,
-            "-k", key,
-            "-o", payload,
-        ]
-        result = subprocess.run(cmd, capture_output=True, text=True)
-        if result.returncode != 0:
-            print(f"Falha em {target['server']}:{target['port']} -> {result.stderr.strip()}")
-        else:
-            print(f"Enviado com sucesso para {target['server']}:{target['port']}")
-```
-
-1. Constrói um **JSON** com o campo `nivel`.
-2. Para **cada** servidor em `ZABBIX_TARGETS`, executa o comando `zabbix_sender`.
-3. Verifica se houve erro e imprime falha ou sucesso.
-
----
-
-## 🏁 Fluxo Principal (Main)
-
-```python
-if __name__ == "__main__":
-    client = mqtt.Client()
-    client.on_connect = on_connect
-    client.on_message = on_message
-
-    client.connect(MQTT_BROKER, MQTT_PORT, 60)
-    client.loop_forever()
-```
-
-1. Cria instância `mqtt.Client()`.
-2. Associa os callbacks `on_connect` e `on_message`.
-3. Conecta ao broker MQTT especificado.
-4. Inicia o loop infinito de escuta de mensagens com `loop_forever()`.
-
----
-
-## 📌 Resumo
-
-* **Escuta**: subscreve `sensor/vibracao` via MQTT.
-* **Filtra**: processa apenas o campo `nivel` do JSON recebido.
-* **Envia**: dispara `zabbix_sender` para múltiplos servidores (incluindo um Raspberry Pi 3), reportando o valor analógico.
-* **Instalação no Pi 3**: use o tutorial do Simplificando Redes para configurar o Zabbix Agent no Raspberry Pi 3.
+- A plataforma **The Things Stack Sandbox** funciona como um backend completo para dispositivos LoRaWAN, com suporte a OTAA, ADR e roteamento.
+- O **ThingSpeak** é especialmente útil para visualizar séries temporais e pode ser integrado com MATLAB para análises avançadas.
+- A comunicação do Heltec ESP32 com o gateway e a The Things Stack segue o protocolo LoRaWAN, garantindo segurança e confiabilidade na transmissão.
+- É importante configurar corretamente os aplicativos na The Things Stack para receber e encaminhar os dados para o ThingSpeak, geralmente via webhook (usado neste cenário) ou MQTT.

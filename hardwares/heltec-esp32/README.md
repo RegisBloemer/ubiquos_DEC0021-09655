@@ -3,7 +3,7 @@
 A placa Heltec WiFi LoRa 32 (V3) combina conectividade Wi-Fi, Bluetooth e LoRa em um único módulo compacto com display OLED integrado, sendo ideal para projetos de IoT com comunicação de longo alcance e baixo consumo.
 
 ## Imagem do Pinout
-![Pinout Heltec ESP32 V3](pinout-heltec_esp32.jpeg)
+![Pinout Heltec ESP32 (V3)](pinout-heltec_esp32.jpeg)
 
 ## Especificações e características
 

@@ -39,19 +39,19 @@ graph TD
 
 ### Diagrama da Arquitetura
 
-![Diagrama da Arquitetura - Cenário 1](./images/diagrama-cenario_1.png)
+![Diagrama da Arquitetura - Cenário 1](../images/diagrama-cenario_1.png)
 
 ## Montagem do Hardware
 
 ### ESP8266 com Sensor de Vibração SW-420
 
-![ESP866com Sensor SW-420](./images/sw420.png)
+![ESP866com Sensor SW-420](../images/sw420.png)
 
 <!-- Espaço para inserir a imagem da ESP8266 com o sensor SW-420 -->
 
 ### ESP8266 com módulo MPU-6050
 
-![ESP8266 com Módulo MPU-6050](./images/mpu6050-esp8266.png)
+![ESP8266 com Módulo MPU-6050](../images/mpu6050-esp8266.png)
 
 <!-- Espaço para inserir a imagem da ESP8266 com o módulo MPU-6050 -->
 
@@ -129,13 +129,15 @@ Dois scripts principais foram criados:
 ### 4. Configuração do Zabbix
 
 A instalação do Zabbix seguiu o tutorial disponível em:
-[Tutorial de Instalação do Zabbix](https://github.com/miguelsrrobo/zabbix-install)
+[Tutorial de Instalação do Zabbix](https://github.com/miguelsrrobo/zabbix-install).
+
+**Obs.**: Um dos servidores Zabbix está rodando em um **Raspberry Pi 3**, como enfatizado em [explicacao.md](../codigos-cenario-I/explicacao.md).
 
 Para o monitoramento dos sensores, foi realizada a configuração de:
 
 1. Um host chamado **SensorHost**
 
-   ![Host Zabbix](./images/hosts.png)
+   ![Host Zabbix](../images/hosts.png)
 
 2. **Configuração para o Acelerômetro**:
    * Um item master do tipo *trapper* chamado "Sensor Acelerômetro" com chave `sensor.acelerometro`
@@ -148,7 +150,7 @@ Para o monitoramento dos sensores, foi realizada a configuração de:
      * Para o eixo Y: `$.y`
      * Para o eixo Z: `$.z`
    
-   ![Itens Zabbix](./images/itens.png)
+   ![Itens Zabbix](../images/itens.png)
    ![Pré-processamento Acelerômetro X](./images/acelerometroa_x.png)
 
 3. **Configuração para o Sensor de Vibração**:
@@ -158,12 +160,12 @@ Para o monitoramento dos sensores, foi realizada a configuração de:
    * O pré-processamento foi configurado usando JSONPath:
      * Para o nível: `$.nivel`
    
-   ![Pré-processamento Sensor Nível](./images/sensor_nivel.png)
+   ![Pré-processamento Sensor Nível](../images/sensor_nivel.png)
 
 ### 5. Integração com Grafana
 
 Para melhorar a visualização dos dados, foi feita a integração do Zabbix com o Grafana, seguindo o tutorial:
-[Tutorial Grafana-Zabbix](https://github.com/RegisBloemer/Grafana-Zabbix-Tutorial)
+[Tutorial Grafana-Zabbix](https://github.com/RegisBloemer/Grafana-Zabbix-Tutorial).
 
 ## Parâmetros de Configuração
 

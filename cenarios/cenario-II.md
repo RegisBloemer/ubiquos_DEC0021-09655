@@ -277,7 +277,7 @@ switch (deviceState)
 
 ## 4. Configuração do LoRaWAN Gateway + The Things Network + end device
 
-Para a configuração do **LoRaWAN Gateway Dragino LPS8N**, um PDF com passo a passo está disponível aqui no repositório: [manual-dragino.pdf](../manual-dragino.pdf).
+Para a configuração do **LoRaWAN Gateway Dragino LPS8N**, um PDF com passo a passo está disponível no repositório: [manual-dragino.pdf](../manual-dragino.pdf).
 
 ## 4.1 Integração com ThingSpeak
 

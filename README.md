@@ -24,9 +24,9 @@ O sistema foi estruturado em **dois cenários distintos**, com o propósito de i
 
 No **primeiro cenário**, foram realizados testes com um **ESP8266** conectado ao módulo **MPU-6050** (acelerômetro) e ao sensor **SW-420** (sensor de vibração), de forma que cada sensor foi utilizado separadamente para coleta de dados. Os dados coletados são transmitidos via **MQTT** e enviados para o **Zabbix**, permitindo o monitoramento remoto e a geração de alertas em tempo real. Os dados recebidos pelo **Zabbix** são então visualizados no **Grafana**, proporcionando uma interface gráfica para análise e monitoramento das condições dos sensores em tempo real.
 
-### Cenário 2 - Arduino UNO, Heltec WiFi LoRa 32 V3 e Dragino LPS8N
+### Cenário 2 - Arduino UNO, Heltec WiFi LoRa 32 (V3) e Dragino LPS8N
 
-No **segundo cenário**, um módulo **Heltec WiFi LoRa 32 V3** é utilizado para coletar e transmitir os dados adquiridos por um **Arduino UNO** conectado a um sensor **MPU-6050**, responsável por medir a vibração do motor. O **Arduino** realiza a leitura dos dados do sensor e os envia ao módulo **Heltec**, que transmite essas informações via **LoRa** ao **LoRaWAN Gateway (Dragino LPS8N)**.
+No **segundo cenário**, um módulo **Heltec WiFi LoRa 32 (V3)** é utilizado para coletar e transmitir os dados adquiridos por um **Arduino UNO** conectado a um sensor **MPU-6050**, responsável por medir a vibração do motor. O **Arduino** realiza a leitura dos dados do sensor e os envia ao módulo **Heltec**, que transmite essas informações via **LoRa** ao **LoRaWAN Gateway (Dragino LPS8N)**.
 
 Os dados são então enviados, por meio do **LoRaWAN Gateway**, para a plataforma **The Things Stack Sandbox**, onde serão processados e enviados para o **ThingSpeak**, onde serão visualizados em tempo real.
 

@@ -37,6 +37,9 @@ Os dados são então enviados, por meio do **LoRaWAN Gateway**, para a plataform
 #### Diagrama da Arquitetura
 ![Diagrama da Arquitetura - Cenário 2](./images/diagrama-cenario_2.png)
 
+> **Observação sobre a arquitetura com Arduino UNO:** 
+> Neste projeto, o Arduino UNO foi utilizado para simular um cenário hipotético. Em trabalhos futuros, pretende-se substituí-lo pelo Arduino Nicla Voice, que já possui um sensor de vibração de 3 eixos integrado. Portanto, caso você deseje reproduzir o cenário 2 de forma mais compacta, é possível conectar diretamente o sensor MPU-6050 ao módulo Heltec WiFi LoRa 32 (V3), eliminando a necessidade do Arduino UNO.
+
 # Divisões do Git
 
 O repositório deste projeto está organizado de forma a facilitar a navegação e a compreensão das implementações realizadas. Cada pasta contém informações específicas sobre os cenários desenvolvidos, os códigos utilizados, as imagens incluídas no relatório, as descrições dos hardwares empregados e referências bibliográficas de exemplo, conforme descrito a seguir:
